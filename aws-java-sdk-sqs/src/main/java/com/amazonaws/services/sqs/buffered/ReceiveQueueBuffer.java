@@ -15,6 +15,7 @@
 
 package com.amazonaws.services.sqs.buffered;
 
+import java.io.Closeable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -46,7 +47,7 @@ import com.amazonaws.services.sqs.model.ReceiveMessageResult;
  * list - If you need to lock both futures and finishedTasks, lock futures first and finishedTasks
  * second
  */
-public class ReceiveQueueBuffer {
+public class ReceiveQueueBuffer implements Closeable {
 
     /**
      * Simple interface to represent a condition
@@ -121,6 +122,11 @@ public class ReceiveQueueBuffer {
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
         }
+    }
+
+    @Override
+    public void close() {
+        this.shutdown();
     }
 
     /**

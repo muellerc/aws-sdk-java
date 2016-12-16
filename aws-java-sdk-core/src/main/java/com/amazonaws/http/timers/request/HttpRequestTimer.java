@@ -14,6 +14,7 @@
  */
 package com.amazonaws.http.timers.request;
 
+import java.io.Closeable;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +31,7 @@ import com.amazonaws.http.timers.TimeoutThreadPoolBuilder;
  */
 @ThreadSafe
 @SdkInternalApi
-public class HttpRequestTimer {
+public class HttpRequestTimer implements Closeable {
 
     private static final String threadNamePrefix = "AwsSdkRequestTimerThread";
 
@@ -80,6 +81,11 @@ public class HttpRequestTimer {
         if (executor != null) {
             executor.shutdown();
         }
+    }
+
+    @Override
+    public void close() {
+        this.shutdown();
     }
 
     /**

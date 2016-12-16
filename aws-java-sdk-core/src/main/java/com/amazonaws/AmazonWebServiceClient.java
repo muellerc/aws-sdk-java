@@ -43,6 +43,7 @@ import com.amazonaws.util.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import java.io.Closeable;
 import java.net.URI;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -55,7 +56,7 @@ import static com.amazonaws.SDKGlobalConfiguration.PROFILING_SYSTEM_PROPERTY;
  * Responsible for basic client capabilities that are the same across all AWS
  * SDK Java clients (ex: setting the client endpoint).
  */
-public abstract class AmazonWebServiceClient {
+public abstract class AmazonWebServiceClient implements Closeable {
 
     /**
      * @deprecated No longer used.
@@ -380,6 +381,11 @@ public abstract class AmazonWebServiceClient {
      */
     public void shutdown() {
         client.shutdown();
+    }
+
+    @Override
+    public void close() {
+        this.shutdown();
     }
 
     /**

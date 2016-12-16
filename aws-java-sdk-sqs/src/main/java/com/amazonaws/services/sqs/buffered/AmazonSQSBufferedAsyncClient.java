@@ -175,6 +175,11 @@ public class AmazonSQSBufferedAsyncClient implements AmazonSQSAsync {
         realSQS.shutdown();
     }
 
+    @Override
+    public void close() {
+        this.shutdown();
+    }
+
     /**
      * Flushes all outstanding outbound requests. Calling this method will wait for
      * the pending outbound tasks in the {@link QueueBuffer} to finish.

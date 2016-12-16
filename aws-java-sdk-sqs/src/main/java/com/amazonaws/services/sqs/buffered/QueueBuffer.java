@@ -14,6 +14,7 @@
  */
 package com.amazonaws.services.sqs.buffered;
 
+import java.io.Closeable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -49,7 +50,7 @@ import com.amazonaws.services.sqs.model.SendMessageResult;
  * Instances of {@code QueueBuffer} are thread-safe.
  */
 
-class QueueBuffer {
+class QueueBuffer implements Closeable {
 
     private final SendQueueBuffer sendBuffer;
     private final ReceiveQueueBuffer receiveBuffer;
@@ -201,6 +202,11 @@ class QueueBuffer {
             flush();
         }
         receiveBuffer.shutdown();
+    }
+
+    @Override
+    public void close() {
+        this.shutdown();
     }
 
     /**

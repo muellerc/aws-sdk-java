@@ -206,6 +206,11 @@ public class AbstractAmazonSQS implements AmazonSQS {
     }
 
     @Override
+    public void close() {
+        this.shutdown();
+    }
+
+    @Override
     public com.amazonaws.ResponseMetadata getCachedResponseMetadata(com.amazonaws.AmazonWebServiceRequest request) {
         throw new java.lang.UnsupportedOperationException();
     }

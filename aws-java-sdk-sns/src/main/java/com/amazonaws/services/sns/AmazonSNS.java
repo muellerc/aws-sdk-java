@@ -12,6 +12,8 @@
  */
 package com.amazonaws.services.sns;
 
+import java.io.Closeable;
+
 import com.amazonaws.*;
 import com.amazonaws.regions.*;
 
@@ -40,7 +42,7 @@ import com.amazonaws.services.sns.model.*;
  * href="http://aws.amazon.com/tools/">Tools for Amazon Web Services</a>.
  * </p>
  */
-public interface AmazonSNS {
+public interface AmazonSNS extends Closeable {
 
     /**
      * The region metadata service name for computing region endpoints. You can use this value to retrieve metadata

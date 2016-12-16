@@ -98,6 +98,7 @@ import org.apache.http.pool.ConnPoolControl;
 import org.apache.http.protocol.HttpContext;
 
 import java.io.BufferedInputStream;
+import java.io.Closeable;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -124,7 +125,7 @@ import static com.amazonaws.util.AWSRequestMetrics.Field.ThrottledRetryCount;
 import static com.amazonaws.util.IOUtils.closeQuietly;
 
 @ThreadSafe
-public class AmazonHttpClient {
+public class AmazonHttpClient implements Closeable {
     public static final String HEADER_USER_AGENT = "User-Agent";
     public static final String HEADER_SDK_TRANSACTION_ID = "amz-sdk-invocation-id";
     public static final String HEADER_SDK_RETRY_INFO = "amz-sdk-retry";
@@ -358,6 +359,11 @@ public class AmazonHttpClient {
         IdleConnectionReaper.removeConnectionManager(httpClient
                                                              .getHttpClientConnectionManager());
         httpClient.getHttpClientConnectionManager().shutdown();
+    }
+
+    @Override
+    public void close() {
+        this.shutdown();
     }
 
     /**
